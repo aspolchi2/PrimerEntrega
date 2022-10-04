@@ -1,3 +1,5 @@
+import fs from "fs";
+
 export default class Contenedor {
   constructor() {}
 
@@ -17,7 +19,6 @@ export default class Contenedor {
   async getAll() {
     try {
       const data = await fs.promises.readFile("./products.txt", "utf-8");
-      // console.log(data);
       return JSON.parse(data);
     } catch (error) {
       console.log(error);
@@ -27,9 +28,9 @@ export default class Contenedor {
   async saveNew(newProduct) {
     try {
       const data = await this.getAll();
-      const index = data.sort((a, b) => b.id - a.id)[0].id;
-      data.push(newProduct);
-      this.save(data);
+      console.log(typeof data);
+      data?.push(newProduct);
+      await this.save(data);
     } catch (error) {
       console.log(error);
     }
@@ -64,5 +65,3 @@ export default class Contenedor {
     }
   }
 }
-
-

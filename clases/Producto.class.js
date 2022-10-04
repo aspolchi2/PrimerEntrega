@@ -1,3 +1,7 @@
+import fs from 'fs'
+import Contenedor from '../components/contenedor';
+
+const contenedor = new Contenedor()
 export default class Producto {
   static productos = [];
   constructor() {
@@ -16,6 +20,7 @@ export default class Producto {
     prod.id = ++this.id;
     prod.timestamp = Date.now();
     Producto.productos.push(prod);
+    Producto.productos.length ? Contenedor.saveNew(prod) : Contenedor.save(Producto.productos)
     return prod;
   }
 

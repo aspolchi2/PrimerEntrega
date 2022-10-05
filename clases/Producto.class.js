@@ -19,8 +19,8 @@ export default class Producto {
   guardar(prod) {
     prod.id = ++this.id;
     prod.timestamp = Date.now();
-    Producto.productos.length === 0 ? contenedor.save(prod) : contenedor.saveNew(prod);
     Producto.productos.push(prod)
+    contenedor.save(Producto.productos)
     return prod;
   }
 
@@ -28,10 +28,13 @@ export default class Producto {
     prod.id = Number(id);
     let index = Producto.productos.findIndex((prod) => prod.id == id);
     Producto.productos.splice(index, 1, prod);
+    contenedor.save(Producto.productos)
+
   }
 
   borrar(id) {
     let index = Producto.productos.findIndex((prod) => prod.id == id);
-    return Producto.productos.splice(index, 1);
+    Producto.productos.splice(index, 1);
+    contenedor.save(Producto.productos)
   }
 }

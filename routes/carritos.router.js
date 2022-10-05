@@ -5,7 +5,7 @@ const router = express.Router();
 
 const carrito = new Carrito();
 
-router.post("", (req, res) => {
+router.post("/", (req, res) => {
   const carritoCreado = carrito.crearCarrito();
   res.send(carritoCreado);
 });
@@ -17,13 +17,17 @@ router.get("/", (req, res) => {
   const listaCarritos = carrito.listarAll();
   res.send(listaCarritos);
 });
+router.get("/:id", (req, res) => {
+  const carritoBorrado = carrito.listar(req.params.id);
+  res.send(carritoBorrado);
+});
 
 router.post("/:id/productos/:idPrd", (req, res) => {
-  const carrito = carrito.guardarProductoEnCarrito(
+  const carritoID = carrito.guardarProductoEnCarrito(
     req.params.idPrd,
     req.params.id
   );
-  res.send(carrito);
+  res.send(carritoID);
 });
 
 export default router;

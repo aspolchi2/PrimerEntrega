@@ -29,7 +29,7 @@ export default class Contenedor {
     try {
       const data = await this.getAll();
       console.log(typeof data);
-      data?.push(newProduct);
+      data.push(newProduct);
       await this.save(data);
     } catch (error) {
       console.log(error);

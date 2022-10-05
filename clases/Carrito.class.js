@@ -27,7 +27,7 @@ export default class Carrito {
     console.log(idProd);
     const producto = this.producto.listar(idProd);
     this.carritos.forEach((carro) => {
-      carro.id == idCarr ? carro.productos.push(producto) : null;
+      carro.id == idCarr ? carro.carritos.push(producto) : null;
     });
     return this.carritos;
   }

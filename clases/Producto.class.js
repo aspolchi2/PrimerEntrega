@@ -1,40 +1,49 @@
-import fs from "fs";
 import Contenedor from "../components/contenedor.js";
 
-const contenedor = new Contenedor();
-export default class Producto {
-  static productos = [];
-  constructor() {
-    this.id = 0;
-  }
-  listar(id) {
-    let producto = Producto.productos.find((prod) => prod.id == id);
-    return producto || { error: " producto no encontrado " };
-  }
-  listarAll() {
-    return Producto.productos.length
-      ? Producto.productos
-      : { error: " no hay productos cargados " };
-  }
-  guardar(prod) {
-    prod.id = ++this.id;
-    prod.timestamp = Date.now();
-    Producto.productos.push(prod)
-    contenedor.save(Producto.productos)
-    return prod;
-  }
+export default class Productos {
+    constructor() {
+        this.contenedor = new Contenedor("productos.txt");
+    }
 
-  actualizar(prod, id) {
-    prod.id = Number(id);
-    let index = Producto.productos.findIndex((prod) => prod.id == id);
-    Producto.productos.splice(index, 1, prod);
-    contenedor.save(Producto.productos)
+    async getById(id) {
+        return await this.contenedor.getById(id);
+    }
 
-  }
+    async getAll() {
+        return await this.contenedor.getAll();
+    }
 
-  borrar(id) {
-    let index = Producto.productos.findIndex((prod) => prod.id == id);
-    Producto.productos.splice(index, 1);
-    contenedor.save(Producto.productos)
-  }
+    async save(prod) {
+        const timeStamp = Date.now();
+        const producto = await this.contenedor.save({
+            nombre: prod.nombre,
+            descripcion: prod.descripcion,
+            codigo: prod.codigo,
+            url: prod.url,
+            precio: prod.precio,
+            stock: prod.stock,
+            timeStamp,
+        });
+        return producto;
+    }
+
+    async update(id, prod) {
+        const timeStamp = Date.now();
+        const producto = await this.contenedor.update(id, {
+            nombre: prod.nombre,
+            descripcion: prod.descripcion,
+            codigo: prod.codigo,
+            url: prod.url,
+            precio: prod.precio,
+            stock: prod.stock,
+            timeStamp,
+        });
+        return producto;
+    }
+
+    async delete(id) {
+        return await this.contenedor.deleteById(id);
+    }
 }
+
+
